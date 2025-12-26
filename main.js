@@ -1,6 +1,6 @@
 const { Client, GatewayIntentBits, Collection } = require('discord.js');
 const { Player } = require('discord-player');
-const { DefaultExtractors } = require('@discord-player/extractor');
+const { YoutubeiExtractor } = require('discord-player-youtubei');
 const { readdirSync } = require('fs');
 const RadioManager = require('./radio-manager');
 
@@ -22,8 +22,13 @@ client.radioManager = new RadioManager(client);
 
 const player = client.player;
 
-// Load all default extractors (YouTube, Spotify, SoundCloud, Vimeo, Apple Music, etc.)
+// Load extractors
 (async () => {
+    // Load YouTube extractor first (most stable)
+    await player.extractors.register(YoutubeiExtractor, {});
+    console.log('[Player] Registered YouTubei extractor');
+    
+    // Load other extractors (Spotify, SoundCloud, etc.)
     await player.extractors.loadDefault();
     console.log('[Player] Loaded default extractors successfully');
 })();
