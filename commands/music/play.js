@@ -7,30 +7,45 @@ module.exports = {
     voiceChannel: true,
 
     async execute(client, message, args) {
-if (!args[0]) return message.channel.send(`${message.author}, Write the name of the music you want to search. ❌`);
+        if (!args[0]) return message.channel.send(`${message.author}, Write the name of the music you want to search. ❌`);
 
-        const res = await client.player.search(args.join(' '), {
+        const searchResult = await client.player.search(args.join(' '), {
             requestedBy: message.member,
             searchEngine: QueryType.AUTO
         });
 
-        if (!res || !res.tracks.length) return message.channel.send(`${message.author}, No results found! ❌`);
-
-        const queue = await client.player.createQueue(message.guild, {
-            metadata: message.channel
-        });
-
-        try {
-            if (!queue.connection) await queue.connect(message.member.voice.channel);
-        } catch {
-            await client.player.deleteQueue(message.guild.id);
-            return message.channel.send(`${message.author}, I can't join audio channel. ❌`);
+        if (!searchResult || !searchResult.tracks.length) {
+            return message.channel.send(`${message.author}, No results found! ❌`);
         }
 
-        await message.channel.send(`Your ${res.playlist ? 'Your Playlist' : 'Your Track'} Loading... 🎧`);
+        try {
+            const queue = client.player.nodes.create(message.guild, {
+                metadata: {
+                    channel: message.channel,
+                    voiceChannel: message.member.voice.channel,
+                    radioManager: client.radioManager
+                },
+                selfDeaf: true,
+                volume: 35,
+                leaveOnEmpty: true,
+                leaveOnEmptyCooldown: 300000,
+                leaveOnEnd: false
+            });
 
-        res.playlist ? queue.addTracks(res.tracks) : queue.addTrack(res.tracks[0]);
+            if (!queue.connection) {
+                await queue.connect(message.member.voice.channel);
+            }
 
-        if (!queue.playing) await queue.play();
+            await message.channel.send(`${searchResult.playlist ? 'Playlist' : 'Track'} loading... 🎧`);
+
+            searchResult.playlist ? queue.addTrack(searchResult.tracks) : queue.addTrack(searchResult.tracks[0]);
+
+            if (!queue.node.isPlaying()) {
+                await queue.node.play();
+            }
+        } catch (error) {
+            console.error('[Play Command] Error:', error);
+            return message.channel.send(`${message.author}, I can't join the audio channel. ❌`);
+        }
     },
 };

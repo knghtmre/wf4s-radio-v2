@@ -1,16 +1,77 @@
-# Discord.js v13 Music Bot
-This music bot project is an adapted version of the original project published on **github.com** specifically for the **glitch.com** site so that users can repo it conveniently.<br><br>
-<h1>Music Bot Installation Guide</h1><hr>
-<h1><a href="https://youtu.be/6WQIiojePQ8">VİDEO GUIDE</a></h1>
-<b>1 |</b> After repoing the project to your project on the website <b>glitch.com</b> via github, log in to the file <b>.env</b> in the project and write the token of your discord bot in the section that says <b>TOKEN</b>.<br><br>
-<b>2 |</b> Press the <b>Tools</b> button at the bottom left, press the <b>Logs</b> button there, and your project specific log will be opened.<br><br>
-<b>3 |</b> If everything is correct, you will see a message in your log saying that your bot is <b>logged in with name</b>. However, if there is a problem, you can see a message about this problem in your log.<br><br>
-<b>4 |</b> If everything went well and your bot is active, you can make some adjustments by browsing the file <b>config.js</b>.<br><br><br><hr><br>
-<h1>If your project on the glitch.com site does not receive a ping from a host, your bot will be offline. I will tell you how to keep your project active at all times.</h1><br>
-<b>1 |</b> Press the button <b>Show</b> on the top left of your project page, click on the <b>first box</b> in the tab that opens. It will take you to your project url, <b>copy this url.</b><br><br>
-<b>2 |</b> <a href="https://codeshare.xyz/uptime">Uptime</a> Paste the url you copied on the specified service and add it to the system.<br><hr><br>
-<h2>Good Luck to You with the Music Bot.</h2>
-<br>
-Umut Bayraktar Youtube: <a href="https://www.youtube.com/UmutBayraktarYT">Subscribe</a><br>
-Code Share Discord: <a href="https://discord.gg/6XGqdgE">Join</a><br>
-VİA: <a href="https://github.com/ZerioDev">ZerioDev</a>
+# WF4S Haulin' Radio Bot v2.0
+
+24/7 Discord radio bot with AI DJ personality (Ava), Star Citizen news, and auto-radio features.
+
+## Features
+
+- 🎵 **Auto Radio Mode** - Automatically starts playing when users join the voice channel
+- 🤖 **Ava AI DJ** - Sarcastic, flirty AI DJ with unique personality using GPT-4
+- 🎙️ **High-Quality Voice** - Azure TTS (AvaMultilingualNeural) with Google TTS fallback
+- 📰 **Star Citizen News** - Periodic news announcements every 3-5 songs
+- ⏰ **Zulu Time** - Time announcements for space truckers
+- 🔄 **Anti-Repetition** - Tracks last 5 announcements to avoid repetitive phrases
+- 🎶 **700+ Sources** - Supports YouTube, Spotify, SoundCloud, and more via discord-player
+
+## Quick Start
+
+### 1. Environment Variables
+
+Copy `.env-sample` to `.env` and fill in:
+
+```env
+TOKEN=your_discord_bot_token
+CLIENT_ID=your_discord_client_id
+VOICE_CHANNEL_NAME=📻 | WF4S Haulin' Radio
+OPENAI_API_KEY=your_openai_api_key
+AZURE_SPEECH_KEY=your_azure_speech_key
+AZURE_SPEECH_REGION=eastus
+AUTO_RADIO_MODE=true
+NEWS_FREQUENCY=3
+```
+
+### 2. Install & Run
+
+```bash
+npm install
+npm start
+```
+
+### 3. Deploy to Railway
+
+1. Push to GitHub
+2. Connect Railway to your repo
+3. Add environment variables in Railway dashboard
+4. Deploy!
+
+## Commands
+
+- `!play <song/URL>` - Play a song
+- `!skip` - Skip current song
+- `!pause` / `!resume` - Pause/resume playback
+- `!stop` - Stop and clear queue
+- `!queue` - Show current queue
+- `!volume <0-100>` - Set volume
+- `!help` - Show all commands
+
+## Architecture
+
+Built on **discord-player v6** framework for maximum stability.
+
+### Why v2?
+
+| Feature | v1 (Old Bot) | v2 (New Bot) |
+|---------|--------------|--------------|
+| Dependencies | 23 packages | 10 packages |
+| YouTube handling | Manual | Framework |
+| Stability | Issues | Rock solid |
+| Maintenance | High | Low |
+
+## Credits
+
+- Based on [JockieMusic](https://github.com/KRISU2022/JockieMusic)
+- Enhanced for WF4S community
+- Powered by discord-player
+
+## License
+
+MIT

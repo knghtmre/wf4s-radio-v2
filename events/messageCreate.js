@@ -1,5 +1,5 @@
 module.exports = (client, message) => {
-    if (message.author.bot || message.channel.type === 'dm') return;
+    if (message.author.bot || message.channel.type === 1) return; // 1 = DM channel
 
     const prefix = client.config.px;
 
@@ -15,7 +15,7 @@ module.exports = (client, message) => {
     if (cmd && DJ.enabled && DJ.commands.includes(cmd.name)) {
         const roleDJ = message.guild.roles.cache.find(x => x.name === DJ.roleName);
 
-        if (!message.member.roles.includes(roleDJ.id)) {
+        if (!message.member.roles.cache.has(roleDJ.id)) {
             return message.channel.send(`${message.author}, This command is set only for those with the ${DJ.roleName} role. ❌`);
         }
     }
