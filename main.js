@@ -1,10 +1,8 @@
-const { Player } = require('discord-player');
 const { Client, GatewayIntentBits, Collection } = require('discord.js');
+const { Player } = require('discord-player');
+const { DefaultExtractors } = require('@discord-player/extractor');
 const { readdirSync } = require('fs');
 const RadioManager = require('./radio-manager');
-
-// Import extractors
-const { YouTubeExtractor, SpotifyExtractor, SoundCloudExtractor } = require('@discord-player/extractor');
 
 // Create Discord client with v14 intents
 let client = new Client({
@@ -24,11 +22,11 @@ client.radioManager = new RadioManager(client);
 
 const player = client.player;
 
-// Register extractors for YouTube, Spotify, SoundCloud, etc.
-player.extractors.register(YouTubeExtractor, {});
-player.extractors.register(SpotifyExtractor, {});
-player.extractors.register(SoundCloudExtractor, {});
-console.log('[Player] Registered extractors: YouTube, Spotify, SoundCloud');
+// Load all default extractors (YouTube, Spotify, SoundCloud, Vimeo, Apple Music, etc.)
+(async () => {
+    await player.extractors.loadDefault();
+    console.log('[Player] Loaded default extractors successfully');
+})();
 
 // Load events
 const events = readdirSync('./events/').filter(file => file.endsWith('.js'));
